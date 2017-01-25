@@ -1,4 +1,5 @@
 const WebFont = require('webfontloader');
+const Slider = require('./components/slider');
 
 class App {
   constructor () {
@@ -7,7 +8,7 @@ class App {
 }
 
 App.prototype.init = function () {
-  console.log('App: init');
+  new Slider();
 }
 
 document.addEventListener('DOMContentLoaded', function () {

@@ -1,0 +1,43 @@
+
+.calendar {
+  width: 32rem;
+}
+
+.calendar__header {
+  display: flex;
+}
+
+.calendar__month-name {
+
+}
+
+.calendar__arrow--prev {
+
+}
+
+.calendar__arrow--next {
+
+}
+
+.calendar__month__list {
+
+}
+
+.calendar__month__item {
+  width: 100%;
+}
+
+.calendar__week {
+  display: flex;
+  > * {
+    flex-basis: calc(100% / 7);
+  }
+}
+
+.calendar__day__list {
+  display: flex;
+  flex-wrap: wrap;
+  > * {
+    flex-basis: calc(100% / 7);
+  }
+}

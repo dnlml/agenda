@@ -5,7 +5,8 @@ body {
     opacity: 0;
   }
 
-  .wf-active & {
+  .wf-active &,
+  .wf-inactive & {
     opacity: 1;
   }
 }
