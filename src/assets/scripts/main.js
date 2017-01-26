@@ -1,5 +1,6 @@
 const WebFont = require('webfontloader');
 const Slider = require('./components/slider');
+const EventManager = require('./components/eventManager');
 
 class App {
   constructor () {
@@ -9,6 +10,7 @@ class App {
 
 App.prototype.init = function () {
   new Slider();
+  new EventManager();
 }
 
 document.addEventListener('DOMContentLoaded', function () {

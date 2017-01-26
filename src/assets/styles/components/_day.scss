@@ -1,0 +1,47 @@
+.day {
+  width: 30rem;
+}
+
+.day__header {
+  text-align: center;
+  padding: 2rem 3rem;
+}
+
+.day__hour__list {
+  height: 60rem;
+  background: whitesmoke;
+  overflow: auto;
+}
+
+.day__hour__item {
+  position: relative;
+  display: flex;
+  height: 8rem;
+  border-bottom: .1rem solid gray;
+  margin-bottom: -.8rem;
+
+  span {
+    display: inline-block;
+    padding-right: .6rem;
+    background-color: whitesmoke;
+    z-index: 20;
+  }
+}
+
+.day__hour__item__event {
+  position: relative;
+  flex-basis: 100%;
+  height: calc(100% - .8rem);
+  margin-top: .8rem;
+  background-color: rgba(255,0,0,.5);
+  border: .1rem solid red;
+  z-index: 10;
+  padding: 1rem;
+  box-sizing: border-box;
+}
+
+.day__hour__item__event__close {
+  @include absolute($left: auto, $bottom: auto, $height: auto, $width: auto);
+  padding-right: .5rem;
+  padding-top: .5rem;
+}

@@ -15,7 +15,7 @@
   <header>
     <h1>Agenda</h1>
   </header>
-  <main>
+  <main style="display: flex;" id="root">
     <div class="calendar">
       <div class="calendar__header">
         <div class="calendar__arrow--prev">&lang;</div>
@@ -33,6 +33,7 @@
           <li>Sat</li>
         </ul>
         <?php
+          $day = (int)date("d");
           $month = (int)date("m");
           $year = date("Y");
         ?>
@@ -52,7 +53,8 @@
                   for($j = 1; $j <= ($daysInMonth+$offset); $j++) :
                     $dayNumber = ($j <= $offset) ? '' : $j-$offset;
                     // print the cells
-                    echo '<li class="calendar__day__item">'. $dayNumber .'</li>';
+                    $dayCurrent = ($j == $day && $i == $month) ? 'calendar__day__item--current' : 'calendar__day__item';
+                    echo '<li class="'. $dayCurrent.'">'. $dayNumber .'</li>';
                   endfor;
                 ?>
               </ul>
@@ -61,7 +63,32 @@
         </div>
       </div>
     </div>
+
+    <div class="day" @click="manageEvent">
+      <div class="day__header">12 Jenuary 2017</div>
+      <ul class="day__hour__list">
+        <li v-for="hour in hours" class="day__hour__item" :data-event-add="hour">
+          <span>{{hour}}h</span>
+          <div v-for="event in events" v-if="event.time == hour " class="day__hour__item__event">
+            {{event.title}}
+            <div class="day__hour__item__event__close" :data-event-remove="event.id">x</div>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <div class="event">
+      <form action="">
+        Event name: <input type="text" name="title" v-model="newEventTitle"> <br>
+        Event Description: <textarea name="description" id="" cols="30" rows="10" v-model="newEventDescription"></textarea>
+        <fieldset>
+          <input type="submit" value="Cancel">
+          <input @click="addEvent" type="submit" value="Add">
+        </fieldset>
+      </form>
+    </div>
   </main>
   <script src="assets/scripts/main.js"></script>
 </body>
 </html>
+<span></span>
