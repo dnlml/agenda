@@ -67,13 +67,7 @@
     <div class="day" @click="manageEvent">
       <div class="day__header">12 Jenuary 2017</div>
       <ul class="day__hour__list">
-        <li v-for="hour in hours" class="day__hour__item" :data-event-add="hour">
-          <span>{{hour}}h</span>
-          <div v-for="event in events" v-if="event.time == hour " class="day__hour__item__event">
-            {{event.title}}
-            <div class="day__hour__item__event__close" :data-event-remove="event.id">x</div>
-          </div>
-        </li>
+        <hour v-for="hour in hours" :hour="hour" :events="events"></hour>
       </ul>
     </div>
 

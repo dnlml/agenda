@@ -269,7 +269,8 @@ http://flickity.metafizzy.co
   left: auto;
   width: auto;
   height: auto;
+  padding-top: .5rem;
   padding-right: .5rem;
-  padding-top: .5rem; }
+  cursor: pointer; }
 
 /*# sourceMappingURL=main.css.map */
