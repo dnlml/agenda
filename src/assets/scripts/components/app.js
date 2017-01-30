@@ -9,6 +9,7 @@ class App {
 };
 
 App.prototype.init = function () {
+  window.Event = new Vue();
 
   Vue.component('event', {
     props: ['title', 'event-id'],
@@ -55,37 +56,60 @@ App.prototype.init = function () {
         this.events = this.events.filter( el => el.id != eventRemove);
       },
       addEvent(eventAdd) {
-        const day = 27;
-        const month = 1;
-        const time = this.$root.$data.newEventTime || eventAdd;
-        const title = this.$root.$data.newEventTitle || 'Title temp';
-        const description = this.$root.$data.newEventDescription || 'temp description';
-        this.$root.$data.progressiveId += 1;
-        this.events.push({
-          day: day,
-          month: month,
-          time: time,
-          title: title,
-          description: description,
-          id: this.$root.$data.progressiveId
-        });
+        window.Event.$emit('openPop', eventAdd, this);
       }
     }
   });
 
   Vue.component('modal', {
     template: `
-      <div class="modal">
-        <form>
-          Event name: <br> <input type="text" name="title"> <br>
-          Event Description: <br><textarea name="description" id="" cols="30" rows="10"></textarea>
-          <fieldset>
-            <input type="submit" value="Cancel">
-            <input type="submit" value="Add">
-          </fieldset>
-        </form>
+      <div class="modal" v-show="isVisible">
+        Event name: <br> <input type="text" name="title" v-model="eventName"> <br>
+        Event Description: <br><textarea name="description" id="" cols="30" rows="10" v-model="eventDescription"></textarea>
+        <div>
+          <button @click="cancel">Cancel</button>
+          <button @click="saveEvent"> Add </button>
+        </div>
       </div>
-    `
+    `,
+    data () {
+      return {
+        isVisible: false,
+        eventName: 'New event',
+        eventDescription: 'New event description'
+      }
+    },
+    created() {
+      window.Event.$on('openPop', this.toggleVisibility)
+    },
+    methods: {
+      toggleVisibility(hour) {
+        this.isVisible = true;
+        this.day = 27;
+        this.month = 1;
+        this.time = hour;
+        this.progressiveId = this.$root.$data.progressiveId += 1;
+      },
+      saveEvent () {
+        this.$root.$data.events.push({
+          day: this.day,
+          month: this.month,
+          time: this.time,
+          title: this.eventName,
+          description: this.eventDescription,
+          id: this.progressiveId
+        });
+
+        this.isVisible = false;
+        this.eventName = 'New event';
+        this.eventDescription = 'New event description';
+
+        console.log(this.$root.$data.events);
+      },
+      cancel () {
+        this.isVisible = false;
+      }
+    }
   });
 
   new Vue({
