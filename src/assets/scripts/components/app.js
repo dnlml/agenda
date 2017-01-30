@@ -53,7 +53,8 @@ App.prototype.init = function () {
         if (eventAdd) this.addEvent(eventAdd);
       },
       removeEvent(eventRemove){
-        this.events = this.events.filter( el => el.id != eventRemove);
+        this.$root.$data.events = this.$root.$data.events.filter( el => el.id != eventRemove);
+        this.events = this.$root.$data.events;
       },
       addEvent(eventAdd) {
         window.Event.$emit('openPop', eventAdd, this);
@@ -103,8 +104,6 @@ App.prototype.init = function () {
         this.isVisible = false;
         this.eventName = 'New event';
         this.eventDescription = 'New event description';
-
-        console.log(this.$root.$data.events);
       },
       cancel () {
         this.isVisible = false;

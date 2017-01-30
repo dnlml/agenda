@@ -12556,9 +12556,10 @@ App.prototype.init = function () {
         if (eventAdd) this.addEvent(eventAdd);
       },
       removeEvent: function removeEvent(eventRemove) {
-        this.events = this.events.filter(function (el) {
+        this.$root.$data.events = this.$root.$data.events.filter(function (el) {
           return el.id != eventRemove;
         });
+        this.events = this.$root.$data.events;
       },
       addEvent: function addEvent(eventAdd) {
         window.Event.$emit('openPop', eventAdd, this);
@@ -12600,8 +12601,6 @@ App.prototype.init = function () {
         this.isVisible = false;
         this.eventName = 'New event';
         this.eventDescription = 'New event description';
-
-        console.log(this.$root.$data.events);
       },
       cancel: function cancel() {
         this.isVisible = false;
