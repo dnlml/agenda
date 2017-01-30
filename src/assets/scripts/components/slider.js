@@ -1,6 +1,5 @@
 'use strict';
 const Flickity = require('flickity');
-const forEach = require('lodash/forEach');
 
 class Slider {
   constructor() {
@@ -28,7 +27,6 @@ class Slider {
 
 Slider.prototype.init = function () {
   this.flkty = new Flickity( this.slider, {
-    // options
     cellAlign: 'center',
     contain: true,
     pageDots: false

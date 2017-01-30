@@ -15,7 +15,7 @@
   <header>
     <h1>Agenda</h1>
   </header>
-  <main style="display: flex;" id="root">
+  <main id="root" style="display: flex">
     <div class="calendar">
       <div class="calendar__header">
         <div class="calendar__arrow--prev">&lang;</div>
@@ -64,23 +64,9 @@
       </div>
     </div>
 
-    <div class="day" @click="manageEvent">
-      <div class="day__header">12 Jenuary 2017</div>
-      <ul class="day__hour__list">
-        <hour v-for="hour in hours" :hour="hour" :events="events"></hour>
-      </ul>
-    </div>
+    <day></day>
+    <modal></modal>
 
-    <div class="event">
-      <form action="">
-        Event name: <input type="text" name="title" v-model="newEventTitle"> <br>
-        Event Description: <textarea name="description" id="" cols="30" rows="10" v-model="newEventDescription"></textarea>
-        <fieldset>
-          <input type="submit" value="Cancel">
-          <input @click="addEvent" type="submit" value="Add">
-        </fieldset>
-      </form>
-    </div>
   </main>
   <script src="assets/scripts/main.js"></script>
 </body>

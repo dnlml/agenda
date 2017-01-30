@@ -1,16 +1,16 @@
 const WebFont = require('webfontloader');
 const Slider = require('./components/slider');
-const EventManager = require('./components/eventManager');
+const App = require('./components/app');
 
-class App {
+class Agenda {
   constructor () {
     this.init();
   }
 }
 
-App.prototype.init = function () {
+Agenda.prototype.init = function () {
+  new App();
   new Slider();
-  new EventManager();
 }
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -19,10 +19,10 @@ document.addEventListener('DOMContentLoaded', function () {
       families: []
     },
     active: function () {
-      new App();
+      new Agenda();
     },
     inactive: function () {
-      new App();
+      new Agenda();
     }
   });
 });
