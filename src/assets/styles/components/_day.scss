@@ -3,8 +3,14 @@
 }
 
 .day__header {
+  position: relative;
   text-align: center;
   padding: 2rem 3rem;
+}
+
+.day__header__close {
+  @include absolute($left: auto, $bottom: auto, $height: auto, $width: auto);
+  cursor: pointer;
 }
 
 .day__hour__list {

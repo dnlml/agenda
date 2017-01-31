@@ -1,6 +1,7 @@
 'use strict';
 
 const Vue = require('vue/dist/vue.js');
+const forEach = require('lodash/forEach');
 
 class App {
   constructor() {
@@ -34,7 +35,7 @@ App.prototype.init = function () {
   Vue.component('day', {
     template: `
       <div class="day" v-show="isVisible">
-        <div class="day__header">{{d}} {{mName}} </div>
+        <div class="day__header">{{d}} {{mName}} <div class="day__header__close" @click="hideDay">x</div></div>
         <ul class="day__hour__list" @click="manageEvent">
           <hour v-for="hour in this.$root.$data.hours" :hour="hour" :events="events" :day="d" :month="mNumber"></hour>
         </ul>
@@ -72,6 +73,9 @@ App.prototype.init = function () {
         this.d = d;
         this.mNumber = m;
         this.mName = this.months[m - 1];
+      },
+      hideDay () {
+        this.isVisible = false;
       }
     }
   });
@@ -128,11 +132,25 @@ App.prototype.init = function () {
   Vue.component('calendar-day', {
     props: ['day', 'month'],
     template: `
-      <li @click="eventManager"><slot></slot></li>
+      <li @click="eventManager" :class="hasEvent()"><slot></slot></li>
     `,
+    data () {
+      return {
+        events: this.$parent.$data.events
+      }
+    },
     methods: {
       eventManager () {
         window.Event.$emit('openDay', this.day, this.month);
+      },
+      hasEvent () {
+        let tmpClass = '';
+        forEach(this.events, el => {
+          if(el.day == this.day && el.month == this.month ) {
+            tmpClass = 'calendar__day__item--event';
+          }
+        });
+        return tmpClass;
       }
     }
   });
@@ -141,7 +159,7 @@ App.prototype.init = function () {
     el: '#root',
     data: {
       hours: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23],
-      progressiveId: 3,
+      progressiveId: 4,
       newEventDay: '',
       newEventMonth: '',
       newEventTime: '',
@@ -171,6 +189,14 @@ App.prototype.init = function () {
           title: 'Event Title 3',
           description: 'This is a short description',
           id: 3
+        },
+        {
+          day: 29,
+          month: 1,
+          time: 4,
+          title: 'Event Title 4',
+          description: 'This is a short description',
+          id: 4
         }
       ]
     }

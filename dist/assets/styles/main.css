@@ -223,7 +223,8 @@ http://flickity.metafizzy.co
 .calendar__day__item {
   position: relative;
   border: 1px solid;
-  box-sizing: border-box; }
+  box-sizing: border-box;
+  cursor: pointer; }
   [class^="calendar__day__item--"]:after,
   .calendar__day__item:after {
     content: '';
@@ -235,12 +236,36 @@ http://flickity.metafizzy.co
 .calendar__day__item--current {
   color: red; }
 
+.calendar__day__item--event:before {
+  content: '';
+  position: absolute;
+  top: auto;
+  right: 0.4rem;
+  bottom: 0.4rem;
+  left: auto;
+  width: 0.8rem;
+  height: 0.8rem;
+  display: block;
+  background-color: red;
+  border-radius: 50%; }
+
 .day {
   width: 30rem; }
 
 .day__header {
+  position: relative;
   text-align: center;
   padding: 2rem 3rem; }
+
+.day__header__close {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: auto;
+  left: auto;
+  width: auto;
+  height: auto;
+  cursor: pointer; }
 
 .day__hour__list {
   height: 60rem;

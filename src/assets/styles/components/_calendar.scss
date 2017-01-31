@@ -39,6 +39,7 @@
   position: relative;
   border: 1px solid;
   box-sizing: border-box;
+  cursor: pointer;
 
   &:after {
     content: '';
@@ -51,4 +52,14 @@
 
 .calendar__day__item--current {
   color: red;
+}
+
+.calendar__day__item--event {
+  &:before {
+    content: '';
+    @include absolute($top: auto, $left: auto, $bottom: .4rem, $right: .4rem, $width: .8rem, $height: .8rem);
+    display: block;
+    background-color: red;
+    border-radius: 50%;
+  }
 }
