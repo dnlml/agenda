@@ -1,6 +1,8 @@
 body {
   transition: opacity .5s;
   font-size: 1.6rem;
+  background-color: $cyan;
+
   .js & {
     opacity: 0;
   }

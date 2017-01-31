@@ -35,7 +35,6 @@ App.prototype.init = function () {
     },
     methods: {
       toggleVisibility(hour, day, month) {
-        console.log(hour, day, month);
         this.isVisible = true;
         this.day = day;
         this.month = month;
@@ -74,11 +73,11 @@ App.prototype.init = function () {
 
   Vue.component('hour', {
     props: ['hour', 'events', 'day', 'month'],
-    template: `<div>
-      <li class="day__hour__item" :data-event-hour="hour" :data-event-day="day" :data-event-month="month" :events="events">
+    template: `<li class="day__hour__item-wrapper">
+      <div class="day__hour__item" :data-event-hour="hour" :data-event-day="day" :data-event-month="month" :events="events">
         <span>{{hour}}h</span>
         <event v-for="event in events" v-if="event.time == hour && event.day == day && event.month == month" :title="event.title" :event-id="event.id"></event>
-      </li></div>
+      </div></li>
     `
   });
 
@@ -113,13 +112,14 @@ App.prototype.init = function () {
         const eventRemove = e.target.dataset.eventRemove;
         if (eventRemove) this.removeEvent(eventRemove);
         if (eventHour) this.addEvent(eventHour, eventDay, eventMonth);
+
       },
       removeEvent(eventRemove){
         this.$root.$data.events = this.$root.$data.events.filter( el => el.id != eventRemove);
         this.events = this.$root.$data.events;
       },
       addEvent(eventHour, eventDay, eventMonth) {
-        window.Event.$emit('openPop', eventHour, eventDay, eventMonth, this);
+        window.Event.$emit('openPop', eventHour, eventDay, eventMonth);
       },
       showDay (d,m) {
         this.isVisible = true;

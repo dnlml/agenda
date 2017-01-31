@@ -12,10 +12,10 @@
   </script>
 </head>
 <body>
-  <header>
+  <header class="header">
     <h1>Agenda</h1>
   </header>
-  <main id="root" style="display: flex">
+  <main id="root" class="main">
     <div class="calendar">
       <div class="calendar__header" data-calendar-header>
         <div class="calendar__arrow--prev" data-calendar-nav="prev">&lang;</div>
@@ -61,6 +61,9 @@
             </div>
           <?php endfor; ?>
         </div>
+      </div>
+      <div class="calendar__footer">
+        <div class="calendar__footer__trigger" data-current-month>< Back to current month</div>
       </div>
     </div>
 

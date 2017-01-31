@@ -23,22 +23,33 @@
   position: relative;
   display: flex;
   height: 8rem;
-  border-bottom: .1rem solid gray;
-  margin-bottom: -.8rem;
+  // border-bottom: .1rem solid gray;
+  // margin-bottom: -.8rem;
 
   span {
     display: inline-block;
     padding-right: .6rem;
-    background-color: whitesmoke;
+    padding-left: .6rem;
     z-index: 20;
+  }
+
+  &.tmp {
+    background-color: rgba(255,0,0,.5);
+  }
+}
+
+.day__hour__item-wrapper {
+
+  background-color: whitesmoke;
+  &:nth-child(even) {
+    background-color: darken(whitesmoke, 4%);
   }
 }
 
 .day__hour__item__event {
   position: relative;
   flex-basis: 100%;
-  height: calc(100% - .8rem);
-  margin-top: .8rem;
+  height: 100%;
   background-color: rgba(255,0,0,.5);
   border: .1rem solid red;
   z-index: 10;

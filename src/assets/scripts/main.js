@@ -16,7 +16,7 @@ Agenda.prototype.init = function () {
 document.addEventListener('DOMContentLoaded', function () {
   WebFont.load({
     custom: {
-      families: []
+      families: ['title', 'subtitle']
     },
     active: function () {
       new Agenda();

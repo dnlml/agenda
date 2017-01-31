@@ -8,7 +8,9 @@
 
 @import 'vendors/flickity';
 
+@import 'parts/header';
+@import 'parts/main';
+
 @import 'components/calendar';
 @import 'components/day';
-
 @import 'components/modal';

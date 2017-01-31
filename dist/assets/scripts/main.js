@@ -13560,7 +13560,6 @@ App.prototype.init = function () {
 
     methods: {
       toggleVisibility: function toggleVisibility(hour, day, month) {
-        console.log(hour, day, month);
         this.isVisible = true;
         this.day = day;
         this.month = month;
@@ -13594,7 +13593,7 @@ App.prototype.init = function () {
 
   Vue.component('hour', {
     props: ['hour', 'events', 'day', 'month'],
-    template: '<div>\n      <li class="day__hour__item" :data-event-hour="hour" :data-event-day="day" :data-event-month="month" :events="events">\n        <span>{{hour}}h</span>\n        <event v-for="event in events" v-if="event.time == hour && event.day == day && event.month == month" :title="event.title" :event-id="event.id"></event>\n      </li></div>\n    '
+    template: '<li class="day__hour__item-wrapper">\n      <div class="day__hour__item" :data-event-hour="hour" :data-event-day="day" :data-event-month="month" :events="events">\n        <span>{{hour}}h</span>\n        <event v-for="event in events" v-if="event.time == hour && event.day == day && event.month == month" :title="event.title" :event-id="event.id"></event>\n      </div></li>\n    '
   });
 
   Vue.component('day', {
@@ -13630,7 +13629,7 @@ App.prototype.init = function () {
         this.events = this.$root.$data.events;
       },
       addEvent: function addEvent(eventHour, eventDay, eventMonth) {
-        window.Event.$emit('openPop', eventHour, eventDay, eventMonth, this);
+        window.Event.$emit('openPop', eventHour, eventDay, eventMonth);
       },
       showDay: function showDay(d, m) {
         this.isVisible = true;
@@ -13735,6 +13734,7 @@ var Slider = function Slider() {
   this.monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
   this.currentMonth = new Date().getMonth();
   this.monthNameDiv = document.querySelector('[data-month-name]');
+  this.backToCurrent = document.querySelector('[data-current-month]');
   this.init();
 };
 
@@ -13752,6 +13752,7 @@ Slider.prototype.init = function () {
   this.addNav();
   this.updateMonthName();
   this.flkty.on('select', this.updateMonthName.bind(this));
+  this.eventManager();
 };
 
 Slider.prototype.addNav = function () {
@@ -13769,6 +13770,14 @@ Slider.prototype.navigate = function (e) {
 
 Slider.prototype.updateMonthName = function () {
   this.monthNameDiv.innerHTML = this.monthNames[this.flkty.selectedIndex];
+};
+
+Slider.prototype.eventManager = function () {
+  var _this = this;
+
+  this.backToCurrent.addEventListener('click', function () {
+    _this.flkty.select(_this.currentMonth);
+  });
 };
 
 module.exports = Slider;
@@ -13800,7 +13809,7 @@ Agenda.prototype.init = function () {
 document.addEventListener('DOMContentLoaded', function () {
   WebFont.load({
     custom: {
-      families: []
+      families: ['title', 'subtitle']
     },
     active: function active() {
       new Agenda();

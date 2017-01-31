@@ -21,6 +21,7 @@ class Slider {
     ];
     this.currentMonth = new Date().getMonth();
     this.monthNameDiv = document.querySelector('[data-month-name]');
+    this.backToCurrent = document.querySelector('[data-current-month]');
     this.init();
   }
 };
@@ -37,6 +38,7 @@ Slider.prototype.init = function () {
   this.addNav();
   this.updateMonthName();
   this.flkty.on( 'select', this.updateMonthName.bind(this));
+  this.eventManager();
 };
 
 Slider.prototype.addNav = function () {
@@ -54,6 +56,12 @@ Slider.prototype.navigate = function (e) {
 
 Slider.prototype.updateMonthName = function () {
   this.monthNameDiv.innerHTML = this.monthNames[this.flkty.selectedIndex];
+};
+
+Slider.prototype.eventManager = function () {
+  this.backToCurrent.addEventListener('click', () => {
+    this.flkty.select( this.currentMonth );
+  });
 };
 
 module.exports = Slider;
