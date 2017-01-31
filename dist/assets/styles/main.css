@@ -193,10 +193,17 @@ http://flickity.metafizzy.co
   opacity: 1; }
 
 .calendar {
-  width: 32rem; }
+  width: 32rem;
+  padding: 3rem; }
 
 .calendar__header {
-  display: flex; }
+  display: flex;
+  justify-content: space-between;
+  align-items: center; }
+
+[class^="calendar__arrow--"] {
+  cursor: pointer;
+  padding: 1rem; }
 
 .calendar__month__item {
   width: 100%; }
@@ -214,7 +221,9 @@ http://flickity.metafizzy.co
 
 [class^="calendar__day__item--"],
 .calendar__day__item {
-  position: relative; }
+  position: relative;
+  border: 1px solid;
+  box-sizing: border-box; }
   [class^="calendar__day__item--"]:after,
   .calendar__day__item:after {
     content: '';

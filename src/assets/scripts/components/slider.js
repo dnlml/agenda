@@ -29,12 +29,27 @@ Slider.prototype.init = function () {
   this.flkty = new Flickity( this.slider, {
     cellAlign: 'center',
     contain: true,
-    pageDots: false
+    pageDots: false,
+    initialIndex: this.currentMonth,
+    draggable: false,
+    prevNextButtons: false
   });
-
-  this.flkty.select( this.currentMonth );
+  this.addNav();
   this.updateMonthName();
   this.flkty.on( 'select', this.updateMonthName.bind(this));
+};
+
+Slider.prototype.addNav = function () {
+  this.navigateFn = this.navigate.bind(this);
+  this.header = document.querySelector('[data-calendar-header]');
+  this.header.addEventListener('click', this.navigateFn);
+};
+
+Slider.prototype.navigate = function (e) {
+  const direction = e.target.dataset.calendarNav || 0;
+  if(!direction) return;
+  if(direction === 'next') this.flkty.next();
+  if(direction === 'prev') this.flkty.previous();
 };
 
 Slider.prototype.updateMonthName = function () {

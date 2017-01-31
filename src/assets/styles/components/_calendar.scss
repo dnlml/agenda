@@ -1,26 +1,18 @@
 
 .calendar {
   width: 32rem;
+  padding: 3rem;
 }
 
 .calendar__header {
   display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-.calendar__month-name {
-
-}
-
-.calendar__arrow--prev {
-
-}
-
-.calendar__arrow--next {
-
-}
-
-.calendar__month__list {
-
+[class^="calendar__arrow--"] {
+  cursor: pointer;
+  padding: 1rem;
 }
 
 .calendar__month__item {
@@ -45,6 +37,9 @@
 [class^="calendar__day__item--"],
 .calendar__day__item {
   position: relative;
+  border: 1px solid;
+  box-sizing: border-box;
+
   &:after {
     content: '';
     display: block;

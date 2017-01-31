@@ -17,10 +17,10 @@
   </header>
   <main id="root" style="display: flex">
     <div class="calendar">
-      <div class="calendar__header">
-        <div class="calendar__arrow--prev">&lang;</div>
+      <div class="calendar__header" data-calendar-header>
+        <div class="calendar__arrow--prev" data-calendar-nav="prev">&lang;</div>
         <div class="calendar__month-names__list" data-month-name></div>
-        <div class="calendar__arrow--next">&rang;</div>
+        <div class="calendar__arrow--next" data-calendar-nav="next">&rang;</div>
       </div>
       <div class="calendar__body">
         <ul class="calendar__week">
@@ -54,7 +54,7 @@
                     $dayNumber = ($j <= $offset) ? '' : $j-$offset;
                     // print the cells
                     $dayCurrent = ($j == $day && $i == $month) ? 'calendar__day__item--current' : 'calendar__day__item';
-                    echo '<li class="'. $dayCurrent.'">'. $dayNumber .'</li>';
+                    echo '<calendar-day class="'. $dayCurrent .'" day="'. $dayNumber .'" month="'. $i .'">'. $dayNumber .'</calendar-day>';
                   endfor;
                 ?>
               </ul>

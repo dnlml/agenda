@@ -33,7 +33,7 @@ App.prototype.init = function () {
 
   Vue.component('day', {
     template: `
-      <div class="day">
+      <div class="day" v-show="isVisible">
         <div class="day__header">12 January 2017</div>
         <ul class="day__hour__list" @click="manageEvent">
           <hour v-for="hour in this.$root.$data.hours" :hour="hour" :events="events"></hour>
@@ -42,8 +42,12 @@ App.prototype.init = function () {
     `,
     data() {
       return {
-        events: this.$root.$data.events
+        events: this.$root.$data.events,
+        isVisible: false
       }
+    },
+    created (){
+      window.Event.$on('openDay', this.showDay);
     },
     methods: {
       manageEvent(e) {
@@ -58,6 +62,9 @@ App.prototype.init = function () {
       },
       addEvent(eventAdd) {
         window.Event.$emit('openPop', eventAdd, this);
+      },
+      showDay () {
+        this.isVisible = true;
       }
     }
   });
@@ -111,44 +118,54 @@ App.prototype.init = function () {
     }
   });
 
+  Vue.component('calendar-day', {
+    props: ['day', 'month'],
+    template: `
+      <li @click="eventManager"><slot></slot></li>
+    `,
+    methods: {
+      eventManager () {
+        window.Event.$emit('openDay', this.day, this.month);
+      }
+    }
+  });
+
   new Vue({
     el: '#root',
-    data() {
-      return {
-        hours: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23],
-        progressiveId: 3,
-        newEventDay: '',
-        newEventMonth: '',
-        newEventTime: '',
-        newEventTitle: '',
-        newEventDescription: '',
-        events: [
-          {
-            day: 27,
-            month: 1,
-            time: 3,
-            title: 'Event Title 1',
-            description: 'This is a short description',
-            id: 1
-          },
-          {
-            day: 27,
-            month: 1,
-            time: 5,
-            title: 'Event Title 2',
-            description: 'This is another short description',
-            id: 2
-          },
-          {
-            day: 27,
-            month: 1,
-            time: 3,
-            title: 'Event Title 3',
-            description: 'This is a short description',
-            id: 3
-          }
-        ]
-      }
+    data: {
+      hours: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23],
+      progressiveId: 3,
+      newEventDay: '',
+      newEventMonth: '',
+      newEventTime: '',
+      newEventTitle: '',
+      newEventDescription: '',
+      events: [
+        {
+          day: 27,
+          month: 1,
+          time: 3,
+          title: 'Event Title 1',
+          description: 'This is a short description',
+          id: 1
+        },
+        {
+          day: 27,
+          month: 1,
+          time: 5,
+          title: 'Event Title 2',
+          description: 'This is another short description',
+          id: 2
+        },
+        {
+          day: 27,
+          month: 1,
+          time: 3,
+          title: 'Event Title 3',
+          description: 'This is a short description',
+          id: 3
+        }
+      ]
     }
   });
 };
