@@ -250,7 +250,8 @@ http://flickity.metafizzy.co
 
 .calendar__month-names__list {
   font-family: 'subtitle';
-  font-size: 2.6rem; }
+  font-size: 2.6rem;
+  cursor: pointer; }
 
 .calendar__week {
   display: flex;
@@ -306,16 +307,6 @@ http://flickity.metafizzy.co
   background-color: #5AD9CE;
   border-radius: 50%;
   border: .3rem solid white; }
-
-.calendar__footer {
-  margin-top: 2rem; }
-
-.calendar__footer__trigger {
-  font-family: 'subtitle';
-  text-transform: uppercase;
-  font-size: 1rem;
-  letter-spacing: .2em;
-  cursor: pointer; }
 
 .day {
   width: 30rem; }

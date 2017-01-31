@@ -21,7 +21,6 @@ class Slider {
     ];
     this.currentMonth = new Date().getMonth();
     this.monthNameDiv = document.querySelector('[data-month-name]');
-    this.backToCurrent = document.querySelector('[data-current-month]');
     this.init();
   }
 };
@@ -59,7 +58,7 @@ Slider.prototype.updateMonthName = function () {
 };
 
 Slider.prototype.eventManager = function () {
-  this.backToCurrent.addEventListener('click', () => {
+  this.monthNameDiv.addEventListener('click', () => {
     this.flkty.select( this.currentMonth );
   });
 };

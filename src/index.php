@@ -62,9 +62,6 @@
           <?php endfor; ?>
         </div>
       </div>
-      <div class="calendar__footer">
-        <div class="calendar__footer__trigger" data-current-month>< Back to current month</div>
-      </div>
     </div>
 
     <day></day>

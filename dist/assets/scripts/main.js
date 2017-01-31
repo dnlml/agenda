@@ -13734,7 +13734,6 @@ var Slider = function Slider() {
   this.monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
   this.currentMonth = new Date().getMonth();
   this.monthNameDiv = document.querySelector('[data-month-name]');
-  this.backToCurrent = document.querySelector('[data-current-month]');
   this.init();
 };
 
@@ -13775,7 +13774,7 @@ Slider.prototype.updateMonthName = function () {
 Slider.prototype.eventManager = function () {
   var _this = this;
 
-  this.backToCurrent.addEventListener('click', function () {
+  this.monthNameDiv.addEventListener('click', function () {
     _this.flkty.select(_this.currentMonth);
   });
 };
