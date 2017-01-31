@@ -13545,60 +13545,6 @@ var App = function App() {
 App.prototype.init = function () {
   window.Event = new Vue();
 
-  Vue.component('event', {
-    props: ['title', 'event-id'],
-    template: '\n      <div class="day__hour__item__event">\n        {{title}}\n        <div class="day__hour__item__event__close" :data-event-remove="eventId">x</div>\n      </div>\n    '
-  });
-
-  Vue.component('hour', {
-    props: ['hour', 'events', 'day', 'month'],
-    template: '<div>\n      <li class="day__hour__item" :data-event-add="hour" :events="events">\n        <span>{{hour}}h</span>\n        <event v-for="event in events" v-if="event.time == hour && event.day == day && event.month == month" :title="event.title" :event-id="event.id"></event>\n      </li></div>\n    '
-  });
-
-  Vue.component('day', {
-    template: '\n      <div class="day" v-show="isVisible">\n        <div class="day__header">{{d}} {{mName}} <div class="day__header__close" @click="hideDay">x</div></div>\n        <ul class="day__hour__list" @click="manageEvent">\n          <hour v-for="hour in this.$root.$data.hours" :hour="hour" :events="events" :day="d" :month="mNumber"></hour>\n        </ul>\n      </div>\n    ',
-    data: function data() {
-      return {
-        events: this.$root.$data.events,
-        isVisible: false,
-        d: '',
-        mNumber: '',
-        mName: '',
-        months: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
-      };
-    },
-    created: function created() {
-      window.Event.$on('openDay', this.showDay);
-    },
-
-    methods: {
-      manageEvent: function manageEvent(e) {
-        var eventAdd = e.target.dataset.eventAdd || e.target.parentElement.dataset.eventAdd;
-        var eventRemove = e.target.dataset.eventRemove;
-        if (eventRemove) this.removeEvent(eventRemove);
-        if (eventAdd) this.addEvent(eventAdd);
-      },
-      removeEvent: function removeEvent(eventRemove) {
-        this.$root.$data.events = this.$root.$data.events.filter(function (el) {
-          return el.id != eventRemove;
-        });
-        this.events = this.$root.$data.events;
-      },
-      addEvent: function addEvent(eventAdd) {
-        window.Event.$emit('openPop', eventAdd, this);
-      },
-      showDay: function showDay(d, m) {
-        this.isVisible = true;
-        this.d = d;
-        this.mNumber = m;
-        this.mName = this.months[m - 1];
-      },
-      hideDay: function hideDay() {
-        this.isVisible = false;
-      }
-    }
-  });
-
   Vue.component('modal', {
     template: '\n      <div class="modal" v-show="isVisible">\n        Event name: <br> <input type="text" name="title" v-model="eventName"> <br>\n        Event Description: <br><textarea name="description" id="" cols="30" rows="10" v-model="eventDescription"></textarea>\n        <div>\n          <button @click="cancel">Cancel</button>\n          <button @click="saveEvent"> Add </button>\n        </div>\n      </div>\n    ',
     data: function data() {
@@ -13613,10 +13559,11 @@ App.prototype.init = function () {
     },
 
     methods: {
-      toggleVisibility: function toggleVisibility(hour) {
+      toggleVisibility: function toggleVisibility(hour, day, month) {
+        console.log(hour, day, month);
         this.isVisible = true;
-        this.day = 27;
-        this.month = 1;
+        this.day = day;
+        this.month = month;
         this.time = hour;
         this.progressiveId = this.$root.$data.progressiveId += 1;
       },
@@ -13635,6 +13582,63 @@ App.prototype.init = function () {
         this.eventDescription = 'New event description';
       },
       cancel: function cancel() {
+        this.isVisible = false;
+      }
+    }
+  });
+
+  Vue.component('event', {
+    props: ['title', 'event-id'],
+    template: '\n      <div class="day__hour__item__event">\n        {{title}}\n        <div class="day__hour__item__event__close" :data-event-remove="eventId">x</div>\n      </div>\n    '
+  });
+
+  Vue.component('hour', {
+    props: ['hour', 'events', 'day', 'month'],
+    template: '<div>\n      <li class="day__hour__item" :data-event-hour="hour" :data-event-day="day" :data-event-month="month" :events="events">\n        <span>{{hour}}h</span>\n        <event v-for="event in events" v-if="event.time == hour && event.day == day && event.month == month" :title="event.title" :event-id="event.id"></event>\n      </li></div>\n    '
+  });
+
+  Vue.component('day', {
+    template: '\n      <div class="day" v-show="isVisible">\n        <div class="day__header">{{d}} {{mName}} <div class="day__header__close" @click="hideDay">x</div></div>\n        <ul class="day__hour__list" @click="manageEvent">\n          <hour v-for="hour in this.$root.$data.hours" :hour="hour" :day="d" :month="mNumber" :events="events"></hour>\n        </ul>\n      </div>\n    ',
+    data: function data() {
+      return {
+        events: this.$root.$data.events,
+        isVisible: false,
+        d: '',
+        mNumber: '',
+        mName: '',
+        months: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+      };
+    },
+    created: function created() {
+      window.Event.$on('openDay', this.showDay);
+    },
+
+    methods: {
+      manageEvent: function manageEvent(e) {
+        var eventHour = e.target.dataset.eventHour || e.target.parentElement.dataset.eventHour;
+        var eventDay = e.target.dataset.eventDay || e.target.parentElement.dataset.eventDay;
+        var eventMonth = e.target.dataset.eventMonth || e.target.parentElement.dataset.eventMonth;
+
+        var eventRemove = e.target.dataset.eventRemove;
+        if (eventRemove) this.removeEvent(eventRemove);
+        if (eventHour) this.addEvent(eventHour, eventDay, eventMonth);
+      },
+      removeEvent: function removeEvent(eventRemove) {
+        this.$root.$data.events = this.$root.$data.events.filter(function (el) {
+          return el.id != eventRemove;
+        });
+        this.events = this.$root.$data.events;
+      },
+      addEvent: function addEvent(eventHour, eventDay, eventMonth) {
+        window.Event.$emit('openPop', eventHour, eventDay, eventMonth, this);
+      },
+      showDay: function showDay(d, m) {
+        this.isVisible = true;
+        this.d = d;
+        this.mNumber = m;
+        this.mName = this.months[m - 1];
+      },
+      hideDay: function hideDay() {
         this.isVisible = false;
       }
     }
