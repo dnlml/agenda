@@ -22,11 +22,11 @@ App.prototype.init = function () {
   });
 
   Vue.component('hour', {
-    props: ['hour', 'events'],
+    props: ['hour', 'events', 'day', 'month'],
     template: `<div>
       <li class="day__hour__item" :data-event-add="hour" :events="events">
         <span>{{hour}}h</span>
-        <event v-for="event in events" v-if="event.time == hour " :title="event.title" :event-id="event.id"></event>
+        <event v-for="event in events" v-if="event.time == hour && event.day == day && event.month == month" :title="event.title" :event-id="event.id"></event>
       </li></div>
     `
   });
@@ -34,16 +34,20 @@ App.prototype.init = function () {
   Vue.component('day', {
     template: `
       <div class="day" v-show="isVisible">
-        <div class="day__header">12 January 2017</div>
+        <div class="day__header">{{d}} {{mName}} </div>
         <ul class="day__hour__list" @click="manageEvent">
-          <hour v-for="hour in this.$root.$data.hours" :hour="hour" :events="events"></hour>
+          <hour v-for="hour in this.$root.$data.hours" :hour="hour" :events="events" :day="d" :month="mNumber"></hour>
         </ul>
       </div>
     `,
     data() {
       return {
         events: this.$root.$data.events,
-        isVisible: false
+        isVisible: false,
+        d: '',
+        mNumber: '',
+        mName: '',
+        months: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
       }
     },
     created (){
@@ -63,8 +67,11 @@ App.prototype.init = function () {
       addEvent(eventAdd) {
         window.Event.$emit('openPop', eventAdd, this);
       },
-      showDay () {
+      showDay (d,m) {
         this.isVisible = true;
+        this.d = d;
+        this.mNumber = m;
+        this.mName = this.months[m - 1];
       }
     }
   });

@@ -12536,16 +12536,20 @@ App.prototype.init = function () {
   });
 
   Vue.component('hour', {
-    props: ['hour', 'events'],
-    template: '<div>\n      <li class="day__hour__item" :data-event-add="hour" :events="events">\n        <span>{{hour}}h</span>\n        <event v-for="event in events" v-if="event.time == hour " :title="event.title" :event-id="event.id"></event>\n      </li></div>\n    '
+    props: ['hour', 'events', 'day', 'month'],
+    template: '<div>\n      <li class="day__hour__item" :data-event-add="hour" :events="events">\n        <span>{{hour}}h</span>\n        <event v-for="event in events" v-if="event.time == hour && event.day == day && event.month == month" :title="event.title" :event-id="event.id"></event>\n      </li></div>\n    '
   });
 
   Vue.component('day', {
-    template: '\n      <div class="day" v-show="isVisible">\n        <div class="day__header">12 January 2017</div>\n        <ul class="day__hour__list" @click="manageEvent">\n          <hour v-for="hour in this.$root.$data.hours" :hour="hour" :events="events"></hour>\n        </ul>\n      </div>\n    ',
+    template: '\n      <div class="day" v-show="isVisible">\n        <div class="day__header">{{d}} {{mName}} </div>\n        <ul class="day__hour__list" @click="manageEvent">\n          <hour v-for="hour in this.$root.$data.hours" :hour="hour" :events="events" :day="d" :month="mNumber"></hour>\n        </ul>\n      </div>\n    ',
     data: function data() {
       return {
         events: this.$root.$data.events,
-        isVisible: false
+        isVisible: false,
+        d: '',
+        mNumber: '',
+        mName: '',
+        months: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
       };
     },
     created: function created() {
@@ -12568,8 +12572,11 @@ App.prototype.init = function () {
       addEvent: function addEvent(eventAdd) {
         window.Event.$emit('openPop', eventAdd, this);
       },
-      showDay: function showDay() {
+      showDay: function showDay(d, m) {
         this.isVisible = true;
+        this.d = d;
+        this.mNumber = m;
+        this.mName = this.months[m - 1];
       }
     }
   });
