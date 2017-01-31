@@ -16,7 +16,7 @@
     <h1>Agenda</h1>
   </header>
   <main id="root" class="main">
-    <div class="calendar">
+    <div class="calendar" data-calendar>
       <div class="calendar__header" data-calendar-header>
         <div class="calendar__arrow--prev" data-calendar-nav="prev">&lang;</div>
         <div class="calendar__month-names__list" data-month-name></div>

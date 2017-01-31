@@ -83,7 +83,7 @@ App.prototype.init = function () {
 
   Vue.component('day', {
     template: `
-      <div class="day" v-show="isVisible">
+      <div :class="className">
         <div class="day__header">{{d}} {{mName}} <div class="day__header__close" @click="hideDay">x</div></div>
         <ul class="day__hour__list" @click="manageEvent">
           <hour v-for="hour in this.$root.$data.hours" :hour="hour" :day="d" :month="mNumber" :events="events"></hour>
@@ -93,11 +93,11 @@ App.prototype.init = function () {
     data() {
       return {
         events: this.$root.$data.events,
-        isVisible: false,
         d: '',
         mNumber: '',
         mName: '',
-        months: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+        months: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+        className: 'day'
       }
     },
     created (){
@@ -122,13 +122,13 @@ App.prototype.init = function () {
         window.Event.$emit('openPop', eventHour, eventDay, eventMonth);
       },
       showDay (d,m) {
-        this.isVisible = true;
         this.d = d;
         this.mNumber = m;
         this.mName = this.months[m - 1];
+        this.className = 'day anim';
       },
       hideDay () {
-        this.isVisible = false;
+        this.className = 'day';
       }
     }
   });
@@ -143,6 +143,9 @@ App.prototype.init = function () {
         events: this.$parent.$data.events
       }
     },
+    created (){
+      window.Event.$on('openDay', this.hideCalendar);
+    },
     methods: {
       eventManager () {
         window.Event.$emit('openDay', this.day, this.month);
@@ -155,6 +158,10 @@ App.prototype.init = function () {
           }
         });
         return tmpClass;
+      },
+      hideCalendar () {
+        const cal = document.querySelector('[data-calendar]');
+        cal.classList.add('anim');
       }
     }
   });
