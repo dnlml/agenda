@@ -13546,16 +13546,16 @@ App.prototype.init = function () {
   window.Event = new Vue();
 
   Vue.component('modal', {
-    template: '\n      <div :class="className">\n        Event name: <br> <input type="text" name="title" v-model="eventName"> <br>\n        Event Description: <br><textarea name="description" id="" cols="30" rows="10" v-model="eventDescription"></textarea>\n        <div>\n          <button @click="cancel">Cancel</button>\n          <button @click="saveEvent"> Add </button>\n        </div>\n      </div>\n    ',
+    template: '\n      <div :class="className">\n        <div class="modal__header">Add new Event</div>\n        <div class="modal__body">\n          Event name: <input class="modal__input--text" type="text" name="title" v-model="eventName" placeholder="New event">\n          Event Description: <textarea class="modal__input--textarea" name="description" id="" cols="30" rows="10" v-model="eventDescription" placeholder="Enter description"></textarea>\n        </div>\n        <div class="modal__footer">\n          <button class="modal__footer__cancel" @click="cancel">Cancel</button>\n          <button class="modal__footer__add" @click="saveEvent"> Add </button>\n        </div>\n      </div>\n    ',
     data: function data() {
       return {
         className: 'modal',
-        eventName: 'New event',
-        eventDescription: 'New event description'
+        eventName: '',
+        eventDescription: ''
       };
     },
     created: function created() {
-      window.Event.$on('openPop', this.toggleVisibility);
+      window.Event.$on('openModal', this.toggleVisibility);
     },
 
     methods: {
@@ -13571,36 +13571,40 @@ App.prototype.init = function () {
           day: this.day,
           month: this.month,
           time: this.time,
-          title: this.eventName,
-          description: this.eventDescription,
+          title: this.eventName || 'New event',
+          description: this.eventDescription || 'New event description',
           id: this.progressiveId
         });
 
         this.className = 'modal';
-        this.eventName = 'New event';
-        this.eventDescription = 'New event description';
-        window.Event.$emit('openDayOther');
+        this.eventName = '';
+        this.eventDescription = '';
+        window.Event.$emit('closeModal');
       },
       cancel: function cancel() {
         this.className = 'modal';
-        window.Event.$emit('openDayOther');
+        window.Event.$emit('closeModal');
       }
     }
   });
 
   Vue.component('event', {
     props: ['title', 'event-id'],
-    template: '\n      <div class="day__hour__item__event">\n        {{title}}\n        <div class="day__hour__item__event__close" :data-event-remove="eventId">x</div>\n      </div>\n    '
+    template: '\n      <div class="day__hour__item__event">\n        {{title}}\n        <div class="day__hour__item__event__close" :data-event-remove="eventId" @click="removeEvent(eventId)">x</div>\n      </div>\n    ',
+    methods: {
+      removeEvent: function removeEvent(eventId) {
+        window.Event.$emit('closeModal');
+        this.cleanData(eventId);
+      },
+      cleanData: function cleanData(eventId) {
+        window.Event.$emit('reindexEvents', eventId);
+      }
+    }
   });
 
   Vue.component('hour', {
     props: ['hour', 'events', 'day', 'month'],
-    template: '<li class="day__hour__item-wrapper" @click="onClick">\n      <div class="day__hour__item" :data-event-hour="hour" :data-event-day="day" :data-event-month="month" :events="events">\n        <span>{{hour}}h</span>\n        <event v-for="event in events" v-if="event.time == hour && event.day == day && event.month == month" :title="event.title" :event-id="event.id"></event>\n      </div></li>\n    ',
-    methods: {
-      onClick: function onClick() {
-        window.Event.$emit('openModal');
-      }
-    }
+    template: '<li class="day__hour__item-wrapper">\n      <div class="day__hour__item" :data-event-hour="hour" :data-event-day="day" :data-event-month="month" :events="events">\n        <span>{{hour}}h</span>\n        <event v-for="event in events" v-if="event.time == hour && event.day == day && event.month == month" :title="event.title" :event-id="event.id"></event>\n      </div></li>\n    '
   });
 
   Vue.component('day', {
@@ -13619,6 +13623,7 @@ App.prototype.init = function () {
       window.Event.$on('openDay', this.prepareDay);
       window.Event.$on('openDayOther', this.showDay);
       window.Event.$on('openModal', this.hideDayOther);
+      window.Event.$on('closeModal', this.showDay);
     },
 
     methods: {
@@ -13638,7 +13643,7 @@ App.prototype.init = function () {
         this.events = this.$root.$data.events;
       },
       addEvent: function addEvent(eventHour, eventDay, eventMonth) {
-        window.Event.$emit('openPop', eventHour, eventDay, eventMonth);
+        window.Event.$emit('openModal', eventHour, eventDay, eventMonth);
       },
       prepareDay: function prepareDay(d, m) {
         this.d = d;
@@ -13670,6 +13675,7 @@ App.prototype.init = function () {
     created: function created() {
       window.Event.$on('openDay', this.hideCalendar);
       window.Event.$on('closeDay', this.showCalendar);
+      window.Event.$on('reindexEvents', this.removeEvent);
     },
 
     methods: {
@@ -13686,6 +13692,12 @@ App.prototype.init = function () {
           }
         });
         return tmpClass;
+      },
+      removeEvent: function removeEvent(eventId) {
+        this.$parent.$data.events = this.$root.$data.events.filter(function (el) {
+          return el.id != eventId;
+        });
+        this.events = this.$parent.$data.events;
       },
       hideCalendar: function hideCalendar() {
         this.cal = document.querySelector('[data-calendar]');
@@ -13708,22 +13720,22 @@ App.prototype.init = function () {
       newEventTitle: '',
       newEventDescription: '',
       events: [{
-        day: 27,
-        month: 1,
+        day: 10,
+        month: 2,
         time: 3,
         title: 'Event Title 1',
         description: 'This is a short description',
         id: 1
       }, {
-        day: 27,
-        month: 1,
+        day: 13,
+        month: 2,
         time: 5,
         title: 'Event Title 2',
         description: 'This is another short description',
         id: 2
       }, {
-        day: 27,
-        month: 1,
+        day: 22,
+        month: 2,
         time: 3,
         title: 'Event Title 3',
         description: 'This is a short description',

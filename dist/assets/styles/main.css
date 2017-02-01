@@ -313,6 +313,9 @@ http://flickity.metafizzy.co
   background-color: #5AD9CE;
   border-radius: 50%; }
 
+.calendar__day__item--event.calendar__day__item--current:before {
+  background-color: white; }
+
 .fade-enter-active,
 .fade-leave-active {
   transition: opacity .5s; }
@@ -360,13 +363,14 @@ http://flickity.metafizzy.co
   height: 100%;
   cursor: pointer;
   font-size: 2rem;
-  padding-top: 1.8rem;
+  padding-top: 1.9rem;
+  padding-left: .3rem;
   background: #fbfbfb;
   box-sizing: border-box; }
 
 .day__hour__list {
   height: 60rem;
-  background: whitesmoke;
+  background: white;
   overflow: auto; }
 
 .day__hour__item {
@@ -383,20 +387,21 @@ http://flickity.metafizzy.co
     background-color: rgba(255, 0, 0, 0.5); }
 
 .day__hour__item-wrapper {
-  background-color: whitesmoke;
-  cursor: pointer; }
-  .day__hour__item-wrapper:nth-child(even) {
-    background-color: #ebebeb; }
+  background-color: white;
+  cursor: pointer;
+  border-bottom: 0.1rem solid #EEEEEE;
+  margin: 1rem; }
 
 .day__hour__item__event {
   position: relative;
   flex-basis: 100%;
-  height: 100%;
-  background-color: rgba(255, 0, 0, 0.5);
-  border: .1rem solid red;
+  height: calc(100% - 1rem);
+  background-color: rgba(90, 217, 206, 0.5);
   z-index: 10;
   padding: 1rem;
   box-sizing: border-box; }
+  .day__hour__item__event + .day__hour__item__event {
+    border-left: 0.1rem solid #5AD9CE; }
 
 .day__hour__item__event__close {
   position: absolute;
@@ -404,10 +409,12 @@ http://flickity.metafizzy.co
   right: 0;
   bottom: auto;
   left: auto;
-  width: auto;
+  width: 2.6rem;
   height: auto;
-  padding-top: .5rem;
-  padding-right: .5rem;
+  box-sizing: border-box;
+  background-color: #5AD9CE;
+  padding: .3rem .5rem .5rem .7rem;
+  text-align: center;
   cursor: pointer; }
 
 .modal {
@@ -419,10 +426,65 @@ http://flickity.metafizzy.co
   opacity: 0;
   font-family: 'subtitle';
   transform: scale(0.8);
-  transition: opacity .55s, transform .55s; }
+  transition: opacity .55s, transform .55s;
+  padding: 3rem;
+  box-sizing: border-box;
+  box-shadow: 0px 40px 120px -40px rgba(0, 0, 0, 0.75); }
   .modal.anim {
     opacity: 1;
     transform: scale(1);
     z-index: 30; }
+
+.modal__header {
+  padding: 0 2rem 2rem 2rem;
+  font-size: 2rem;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  font-weight: 100; }
+
+.modal__body {
+  margin-top: 1rem; }
+
+[class^="modal__input--"] {
+  box-sizing: border-box;
+  margin-top: 1rem;
+  margin-bottom: 4rem;
+  width: 100%;
+  font-size: 1.8rem;
+  padding: .5em .2em; }
+  [class^="modal__input--"]:placeholder-shown {
+    font-size: 1.2rem; }
+
+.modal__input--text {
+  border: 0;
+  border-bottom: 0.1rem solid #EEEEEE; }
+
+.modal__input--textarea {
+  border: 0.1rem solid #EEEEEE; }
+
+.modal__footer {
+  display: flex;
+  justify-content: flex-end; }
+
+[class^="modal__footer__"] {
+  border: 0;
+  padding: 1rem 1.6rem;
+  font-size: 1.6rem;
+  color: white;
+  cursor: pointer;
+  box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.75);
+  transform: translate3d(0, 0, 0);
+  transition: box-shadow .33s, transform .33s; }
+  [class^="modal__footer__"]:hover {
+    box-shadow: 0 10px 20px -15px rgba(0, 0, 0, 0.75);
+    transform: translate3d(0, -0.5rem, 0); }
+
+.modal__footer__cancel {
+  background: red;
+  margin-right: 2rem; }
+
+.modal__footer__add {
+  background: #5AD9CE; }
 
 /*# sourceMappingURL=main.css.map */
