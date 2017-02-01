@@ -13575,14 +13575,12 @@ App.prototype.init = function () {
           description: this.eventDescription || 'New event description',
           id: this.progressiveId
         });
-
-        this.className = 'modal';
-        this.eventName = '';
-        this.eventDescription = '';
-        window.Event.$emit('closeModal');
+        this.cancel();
       },
       cancel: function cancel() {
         this.className = 'modal';
+        this.eventName = '';
+        this.eventDescription = '';
         window.Event.$emit('closeModal');
       }
     }
@@ -13608,7 +13606,7 @@ App.prototype.init = function () {
   });
 
   Vue.component('day', {
-    template: '\n      <div :class="className">\n        <div class="day__header">{{d}} {{mName}} <div class="day__header__close" @click="hideDay">x</div></div>\n        <ul class="day__hour__list" @click="manageEvent">\n          <hour v-for="hour in this.$root.$data.hours" :hour="hour" :day="d" :month="mNumber" :events="events"></hour>\n        </ul>\n      </div>\n    ',
+    template: '\n      <div :class="className">\n        <div class="day__header">{{d}} {{mName}} <div class="day__header__close" @click="hideDay">x</div></div>\n        <ul class="day__hour__list" @click="manageEvent" data-day-list>\n          <hour v-for="hour in this.$root.$data.hours" :hour="hour" :day="d" :month="mNumber" :events="events"></hour>\n        </ul>\n      </div>\n    ',
     data: function data() {
       return {
         events: this.$root.$data.events,
@@ -13625,14 +13623,15 @@ App.prototype.init = function () {
       window.Event.$on('openModal', this.hideDayOther);
       window.Event.$on('closeModal', this.showDay);
     },
+    mounted: function mounted() {
+      this.setScrollToCurrent();
+    },
 
     methods: {
       manageEvent: function manageEvent(e) {
         var eventHour = e.target.dataset.eventHour || e.target.parentElement.dataset.eventHour || e.target.parentElement.parentElement.dataset.eventHour;
         var eventDay = e.target.dataset.eventDay || e.target.parentElement.dataset.eventDay || e.target.parentElement.parentElement.dataset.eventDay;
         var eventMonth = e.target.dataset.eventMonth || e.target.parentElement.dataset.eventMonth || e.target.parentElement.parentElement.dataset.eventMonth;
-
-        console.log(eventHour, eventDay, eventMonth);
 
         var eventRemove = e.target.dataset.eventRemove;
         if (eventRemove) {
@@ -13654,6 +13653,7 @@ App.prototype.init = function () {
         this.d = d;
         this.mNumber = m;
         this.mName = this.months[m - 1];
+        this.setScrollToCurrent();
         this.showDay();
       },
       showDay: function showDay() {
@@ -13665,6 +13665,15 @@ App.prototype.init = function () {
       },
       hideDayOther: function hideDayOther() {
         this.className = 'day back';
+      },
+      setScrollToCurrent: function setScrollToCurrent() {
+        var list = this.$el.querySelector('[data-day-list]');
+        var listHeight = list.getBoundingClientRect().height;
+        var listItem = list.querySelector('li');
+        var liHeight = listItem.getBoundingClientRect().height;
+        var date = new Date();
+        var hour = date.getHours();
+        list.scrollTop = liHeight * hour + listHeight;
       }
     }
   });

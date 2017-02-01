@@ -53,14 +53,12 @@ App.prototype.init = function () {
           description: this.eventDescription || 'New event description',
           id: this.progressiveId
         });
-
-        this.className = 'modal';
-        this.eventName = '';
-        this.eventDescription = '';
-        window.Event.$emit('closeModal');
+        this.cancel();
       },
       cancel () {
         this.className = 'modal';
+        this.eventName = '';
+        this.eventDescription = '';
         window.Event.$emit('closeModal');
       }
     }
@@ -100,7 +98,7 @@ App.prototype.init = function () {
     template: `
       <div :class="className">
         <div class="day__header">{{d}} {{mName}} <div class="day__header__close" @click="hideDay">x</div></div>
-        <ul class="day__hour__list" @click="manageEvent">
+        <ul class="day__hour__list" @click="manageEvent" data-day-list>
           <hour v-for="hour in this.$root.$data.hours" :hour="hour" :day="d" :month="mNumber" :events="events"></hour>
         </ul>
       </div>
@@ -121,6 +119,9 @@ App.prototype.init = function () {
       window.Event.$on('openModal', this.hideDayOther);
       window.Event.$on('closeModal', this.showDay);
     },
+    mounted () {
+      this.setScrollToCurrent();
+    },
     methods: {
       manageEvent(e) {
         const eventHour =
@@ -135,8 +136,6 @@ App.prototype.init = function () {
               e.target.dataset.eventMonth ||
               e.target.parentElement.dataset.eventMonth ||
               e.target.parentElement.parentElement.dataset.eventMonth;
-
-        console.log(eventHour, eventDay, eventMonth);
 
         const eventRemove = e.target.dataset.eventRemove;
         if (eventRemove) {
@@ -157,6 +156,7 @@ App.prototype.init = function () {
         this.d = d;
         this.mNumber = m;
         this.mName = this.months[m - 1];
+        this.setScrollToCurrent();
         this.showDay();
       },
       showDay (){
@@ -168,6 +168,15 @@ App.prototype.init = function () {
       },
       hideDayOther () {
         this.className = 'day back';
+      },
+      setScrollToCurrent () {
+        const list = this.$el.querySelector('[data-day-list]');
+        const listHeight = list.getBoundingClientRect().height;
+        const listItem = list.querySelector('li');
+        const liHeight = listItem.getBoundingClientRect().height;
+        const date = new Date();
+        const hour = date.getHours();
+        list.scrollTop = (liHeight * hour) + listHeight;
       }
     }
   });
