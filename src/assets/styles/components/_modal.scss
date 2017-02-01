@@ -1,6 +1,6 @@
 .modal {
+  @include absolute($top: 0, $left: auto, $right: auto, $bottom: auto);
   background-color: white;
-  position: absolute;
   z-index: 0;
   width: 40rem;
   height: 100%;

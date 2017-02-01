@@ -1,5 +1,5 @@
 .day {
-  position: absolute;
+  @include absolute($top: 0, $left: auto, $right: auto, $bottom: auto);
   width: 30rem;
   opacity: 0;
   z-index: 20;
@@ -10,6 +10,8 @@
   overflow: hidden;
   transform: scale(.8);
   transition: opacity .55s, transform .55s;
+
+
 
   &.anim {
     opacity: 1;
