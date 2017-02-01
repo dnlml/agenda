@@ -1,9 +1,7 @@
 .modal {
-  @include absolute($top: 0, $left: auto, $right: auto, $bottom: auto);
+  @include absolute($top: 0, $left: calc(50% - 20rem), $right: auto, $bottom: auto, $width: 40rem, $height: 60rem);
   background-color: white;
   z-index: 0;
-  width: 40rem;
-  height: 100%;
   opacity: 0;
   font-family: 'subtitle';
   transform: scale(.8);

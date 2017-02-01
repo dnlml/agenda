@@ -1,17 +1,13 @@
 .day {
-  @include absolute($top: 0, $left: auto, $right: auto, $bottom: auto);
-  width: 30rem;
+  @include absolute($top: 0, $left: calc(50% - 20rem), $right: auto, $bottom: auto, $width: 40rem, $height: 60rem);
   opacity: 0;
   z-index: 20;
-  width: 40rem;
   background-color: white;
   font-family: 'subtitle';
   box-shadow: 0 40px 120px -40px rgba(0,0,0,.75);
   overflow: hidden;
   transform: scale(.8);
   transition: opacity .55s, transform .55s;
-
-
 
   &.anim {
     opacity: 1;

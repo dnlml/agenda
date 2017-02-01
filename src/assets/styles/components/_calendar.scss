@@ -1,5 +1,6 @@
 .calendar {
-  width: 52rem;
+  @include absolute($top: 0, $left: calc(50% - 29rem), $right: auto, $bottom: auto, $width: 58rem, $height: auto);
+  box-sizing: border-box;
   padding: 0 3rem 3rem 3rem;
   background: white;
   box-shadow: 0px 40px 120px -40px rgba(0,0,0,0.75);
