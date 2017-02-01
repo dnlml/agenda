@@ -13589,8 +13589,8 @@ App.prototype.init = function () {
   });
 
   Vue.component('event', {
-    props: ['title', 'event-id'],
-    template: '\n      <div class="day__hour__item__event">\n        {{title}}\n        <div class="day__hour__item__event__close" :data-event-remove="eventId" @click="removeEvent(eventId)">x</div>\n      </div>\n    ',
+    props: ['title', 'description', 'event-id'],
+    template: '\n      <div class="day__hour__item__event">\n        <div class="day__hour__item__event__title">{{title}}</div>\n        <div class="day__hour__item__event__description">{{description}}</div>\n        <div class="day__hour__item__event__close" :data-event-remove="eventId" @click="removeEvent(eventId)">x</div>\n      </div>\n    ',
     methods: {
       removeEvent: function removeEvent(eventId) {
         window.Event.$emit('closeModal');
@@ -13604,7 +13604,7 @@ App.prototype.init = function () {
 
   Vue.component('hour', {
     props: ['hour', 'events', 'day', 'month'],
-    template: '<li class="day__hour__item-wrapper">\n      <div class="day__hour__item" :data-event-hour="hour" :data-event-day="day" :data-event-month="month" :events="events">\n        <span>{{hour}}h</span>\n        <event v-for="event in events" v-if="event.time == hour && event.day == day && event.month == month" :title="event.title" :event-id="event.id"></event>\n      </div></li>\n    '
+    template: '<li class="day__hour__item-wrapper">\n      <div class="day__hour__item" :data-event-hour="hour" :data-event-day="day" :data-event-month="month" :events="events">\n        <span>{{hour}}h</span>\n        <event v-for="event in events" v-if="event.time == hour && event.day == day && event.month == month" :title="event.title" :description="event.description" :event-id="event.id"></event>\n      </div></li>\n    '
   });
 
   Vue.component('day', {
@@ -13680,6 +13680,7 @@ App.prototype.init = function () {
 
     methods: {
       eventManager: function eventManager() {
+        if (!this.day) return;
         window.Event.$emit('openDay', this.day, this.month);
       },
       hasEvent: function hasEvent() {

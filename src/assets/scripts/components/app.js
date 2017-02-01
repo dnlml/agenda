@@ -67,10 +67,11 @@ App.prototype.init = function () {
   });
 
   Vue.component('event', {
-    props: ['title', 'event-id'],
+    props: ['title','description','event-id'],
     template: `
       <div class="day__hour__item__event">
-        {{title}}
+        <div class="day__hour__item__event__title">{{title}}</div>
+        <div class="day__hour__item__event__description">{{description}}</div>
         <div class="day__hour__item__event__close" :data-event-remove="eventId" @click="removeEvent(eventId)">x</div>
       </div>
     `,
@@ -90,7 +91,7 @@ App.prototype.init = function () {
     template: `<li class="day__hour__item-wrapper">
       <div class="day__hour__item" :data-event-hour="hour" :data-event-day="day" :data-event-month="month" :events="events">
         <span>{{hour}}h</span>
-        <event v-for="event in events" v-if="event.time == hour && event.day == day && event.month == month" :title="event.title" :event-id="event.id"></event>
+        <event v-for="event in events" v-if="event.time == hour && event.day == day && event.month == month" :title="event.title" :description="event.description" :event-id="event.id"></event>
       </div></li>
     `
   });
@@ -174,6 +175,7 @@ App.prototype.init = function () {
     },
     methods: {
       eventManager () {
+        if(!this.day) return;
         window.Event.$emit('openDay', this.day, this.month);
       },
       hasEvent () {

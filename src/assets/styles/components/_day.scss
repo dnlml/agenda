@@ -52,7 +52,7 @@
 .day__hour__item {
   position: relative;
   display: flex;
-  height: 8rem;
+  height: 10rem;
 
   span {
     display: inline-block;
@@ -82,6 +82,7 @@
   z-index: 10;
   padding: 1rem;
   box-sizing: border-box;
+  overflow: hidden;
 
   & + & {
     border-left: .1rem solid $cyan;
@@ -95,4 +96,17 @@
   padding: .3rem .5rem .5rem .7rem;
   text-align: center;
   cursor: pointer;
+}
+
+[class^="day__hour__item__event__"] {
+  line-height: 1.4;
+  max-width: calc(100% - 2rem);
+}
+
+.day__hour__item__event__title {
+  font-size: 1.6rem;
+}
+
+.day__hour__item__event__description {
+  font-size: 1.3rem;
 }
