@@ -323,14 +323,6 @@ http://flickity.metafizzy.co
 .calendar__day__item--event.calendar__day__item--current:before {
   background-color: white; }
 
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity .5s; }
-
-.fade-enter,
-.fade-leave-to {
-  opacity: 0; }
-
 .day {
   position: absolute;
   top: 0;

@@ -54,7 +54,7 @@
                     $dayNumber = ($j <= $offset) ? '' : $j-$offset;
                     // print the cells
                     $dayCurrent = ($j == $day + $offset && $i == $month) ? 'calendar__day__item--current' : 'calendar__day__item';
-                    echo '<calendar-day class="'. $dayCurrent .'" day="'. $dayNumber .'" month="'. $i .'"><span>'. $dayNumber .'<span></calendar-day>';
+                    echo '<calendar-day class="'. $dayCurrent .'" day="'. $dayNumber .'" month="'. $i .'"><span>'. $dayNumber .'</span></calendar-day>';
                   endfor;
                 ?>
               </ul>

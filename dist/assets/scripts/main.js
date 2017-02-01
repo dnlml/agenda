@@ -13628,12 +13628,17 @@ App.prototype.init = function () {
 
     methods: {
       manageEvent: function manageEvent(e) {
-        var eventHour = e.target.dataset.eventHour || e.target.parentElement.dataset.eventHour;
-        var eventDay = e.target.dataset.eventDay || e.target.parentElement.dataset.eventDay;
-        var eventMonth = e.target.dataset.eventMonth || e.target.parentElement.dataset.eventMonth;
+        var eventHour = e.target.dataset.eventHour || e.target.parentElement.dataset.eventHour || e.target.parentElement.parentElement.dataset.eventHour;
+        var eventDay = e.target.dataset.eventDay || e.target.parentElement.dataset.eventDay || e.target.parentElement.parentElement.dataset.eventDay;
+        var eventMonth = e.target.dataset.eventMonth || e.target.parentElement.dataset.eventMonth || e.target.parentElement.parentElement.dataset.eventMonth;
+
+        console.log(eventHour, eventDay, eventMonth);
 
         var eventRemove = e.target.dataset.eventRemove;
-        if (eventRemove) this.removeEvent(eventRemove);
+        if (eventRemove) {
+          this.removeEvent(eventRemove);
+          return;
+        };
         if (eventHour) this.addEvent(eventHour, eventDay, eventMonth);
       },
       removeEvent: function removeEvent(eventRemove) {

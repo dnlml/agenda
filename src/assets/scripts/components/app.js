@@ -123,16 +123,30 @@ App.prototype.init = function () {
     },
     methods: {
       manageEvent(e) {
-        const eventHour = e.target.dataset.eventHour || e.target.parentElement.dataset.eventHour;
-        const eventDay = e.target.dataset.eventDay || e.target.parentElement.dataset.eventDay;
-        const eventMonth = e.target.dataset.eventMonth || e.target.parentElement.dataset.eventMonth;
+        const eventHour =
+              e.target.dataset.eventHour ||
+              e.target.parentElement.dataset.eventHour ||
+              e.target.parentElement.parentElement.dataset.eventHour;
+        const eventDay =
+              e.target.dataset.eventDay ||
+              e.target.parentElement.dataset.eventDay ||
+              e.target.parentElement.parentElement.dataset.eventDay;
+        const eventMonth =
+              e.target.dataset.eventMonth ||
+              e.target.parentElement.dataset.eventMonth ||
+              e.target.parentElement.parentElement.dataset.eventMonth;
+
+        console.log(eventHour, eventDay, eventMonth);
 
         const eventRemove = e.target.dataset.eventRemove;
-        if (eventRemove) this.removeEvent(eventRemove);
+        if (eventRemove) {
+          this.removeEvent(eventRemove)
+          return;
+        };
         if (eventHour) this.addEvent(eventHour, eventDay, eventMonth);
 
       },
-      removeEvent(eventRemove){
+      removeEvent(eventRemove) {
         this.$root.$data.events = this.$root.$data.events.filter( el => el.id != eventRemove);
         this.events = this.$root.$data.events;
       },
@@ -211,7 +225,7 @@ App.prototype.init = function () {
       newEventTime: '',
       newEventTitle: '',
       newEventDescription: '',
-      events: [
+      events: [ //here I should call the API entrypoint of the backend to persist the object
         {
           day: 10,
           month: 2,
