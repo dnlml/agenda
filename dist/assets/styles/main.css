@@ -265,7 +265,9 @@ http://flickity.metafizzy.co
   display: flex;
   font-family: 'subtitle';
   text-transform: uppercase;
-  text-align: center; }
+  text-align: center;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid #EEEEEE; }
   .calendar__week > * {
     flex-basis: calc(100% / 7); }
 
@@ -284,7 +286,7 @@ http://flickity.metafizzy.co
   padding-top: 3rem;
   cursor: pointer;
   text-align: center;
-  border-bottom: 1px solid #eee; }
+  border-bottom: 1px solid #EEEEEE; }
   [class^="calendar__day__item--"]:after,
   .calendar__day__item:after {
     content: '';
@@ -323,18 +325,30 @@ http://flickity.metafizzy.co
   position: absolute;
   width: 30rem;
   opacity: 0;
+  z-index: 20;
+  width: 40rem;
+  background-color: white;
+  font-family: 'subtitle';
+  box-shadow: 0 40px 120px -40px rgba(0, 0, 0, 0.75);
+  overflow: hidden;
   transform: scale(0.8);
-  transition: opacity .55s, transform .55s;
-  z-index: 20; }
+  transition: opacity .55s, transform .55s; }
   .day.anim {
     opacity: 1;
     transform: scale(1);
+    z-index: 10; }
+  .day.back {
+    opacity: .3;
+    transform: scale(0.8);
     z-index: 10; }
 
 .day__header {
   position: relative;
   text-align: center;
-  padding: 2rem 3rem; }
+  padding: 2rem 3rem;
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  box-shadow: 0 0 30px -10px rgba(0, 0, 0, 0.75); }
 
 .day__header__close {
   position: absolute;
@@ -342,9 +356,13 @@ http://flickity.metafizzy.co
   right: 0;
   bottom: auto;
   left: auto;
-  width: auto;
-  height: auto;
-  cursor: pointer; }
+  width: 5.6rem;
+  height: 100%;
+  cursor: pointer;
+  font-size: 2rem;
+  padding-top: 1.8rem;
+  background: #fbfbfb;
+  box-sizing: border-box; }
 
 .day__hour__list {
   height: 60rem;
@@ -359,12 +377,14 @@ http://flickity.metafizzy.co
     display: inline-block;
     padding-right: .6rem;
     padding-left: .6rem;
-    z-index: 20; }
+    z-index: 20;
+    padding-top: .6rem; }
   .day__hour__item.tmp {
     background-color: rgba(255, 0, 0, 0.5); }
 
 .day__hour__item-wrapper {
-  background-color: whitesmoke; }
+  background-color: whitesmoke;
+  cursor: pointer; }
   .day__hour__item-wrapper:nth-child(even) {
     background-color: #ebebeb; }
 
@@ -391,6 +411,18 @@ http://flickity.metafizzy.co
   cursor: pointer; }
 
 .modal {
-  background-color: gold; }
+  background-color: white;
+  position: absolute;
+  z-index: 0;
+  width: 40rem;
+  height: 100%;
+  opacity: 0;
+  font-family: 'subtitle';
+  transform: scale(0.8);
+  transition: opacity .55s, transform .55s; }
+  .modal.anim {
+    opacity: 1;
+    transform: scale(1);
+    z-index: 30; }
 
 /*# sourceMappingURL=main.css.map */

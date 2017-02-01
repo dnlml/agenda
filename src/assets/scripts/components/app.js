@@ -14,7 +14,7 @@ App.prototype.init = function () {
 
   Vue.component('modal', {
     template: `
-      <div class="modal" v-show="isVisible">
+      <div :class="className">
         Event name: <br> <input type="text" name="title" v-model="eventName"> <br>
         Event Description: <br><textarea name="description" id="" cols="30" rows="10" v-model="eventDescription"></textarea>
         <div>
@@ -25,7 +25,7 @@ App.prototype.init = function () {
     `,
     data () {
       return {
-        isVisible: false,
+        className: 'modal',
         eventName: 'New event',
         eventDescription: 'New event description'
       }
@@ -35,7 +35,7 @@ App.prototype.init = function () {
     },
     methods: {
       toggleVisibility(hour, day, month) {
-        this.isVisible = true;
+        this.className = 'modal anim';
         this.day = day;
         this.month = month;
         this.time = hour;
@@ -51,12 +51,14 @@ App.prototype.init = function () {
           id: this.progressiveId
         });
 
-        this.isVisible = false;
+        this.className = 'modal';
         this.eventName = 'New event';
         this.eventDescription = 'New event description';
+        window.Event.$emit('openDayOther');
       },
       cancel () {
-        this.isVisible = false;
+        this.className = 'modal';
+        window.Event.$emit('openDayOther');
       }
     }
   });
@@ -73,12 +75,17 @@ App.prototype.init = function () {
 
   Vue.component('hour', {
     props: ['hour', 'events', 'day', 'month'],
-    template: `<li class="day__hour__item-wrapper">
+    template: `<li class="day__hour__item-wrapper" @click="onClick">
       <div class="day__hour__item" :data-event-hour="hour" :data-event-day="day" :data-event-month="month" :events="events">
         <span>{{hour}}h</span>
         <event v-for="event in events" v-if="event.time == hour && event.day == day && event.month == month" :title="event.title" :event-id="event.id"></event>
       </div></li>
-    `
+    `,
+    methods: {
+      onClick() {
+        window.Event.$emit('openModal');
+      }
+    }
   });
 
   Vue.component('day', {
@@ -101,7 +108,9 @@ App.prototype.init = function () {
       }
     },
     created (){
-      window.Event.$on('openDay', this.showDay);
+      window.Event.$on('openDay', this.prepareDay);
+      window.Event.$on('openDayOther', this.showDay);
+      window.Event.$on('openModal', this.hideDayOther);
     },
     methods: {
       manageEvent(e) {
@@ -121,14 +130,21 @@ App.prototype.init = function () {
       addEvent(eventHour, eventDay, eventMonth) {
         window.Event.$emit('openPop', eventHour, eventDay, eventMonth);
       },
-      showDay (d,m) {
+      prepareDay (d,m) {
         this.d = d;
         this.mNumber = m;
         this.mName = this.months[m - 1];
+        this.showDay();
+      },
+      showDay (){
         this.className = 'day anim';
       },
       hideDay () {
         this.className = 'day';
+        window.Event.$emit('closeDay', this.showDay);
+      },
+      hideDayOther () {
+        this.className = 'day back';
       }
     }
   });
@@ -145,6 +161,7 @@ App.prototype.init = function () {
     },
     created (){
       window.Event.$on('openDay', this.hideCalendar);
+      window.Event.$on('closeDay', this.showCalendar);
     },
     methods: {
       eventManager () {
@@ -160,8 +177,11 @@ App.prototype.init = function () {
         return tmpClass;
       },
       hideCalendar () {
-        const cal = document.querySelector('[data-calendar]');
-        cal.classList.add('anim');
+        this.cal = document.querySelector('[data-calendar]');
+        this.cal.classList.add('anim');
+      },
+      showCalendar () {
+        this.cal.classList.remove('anim');
       }
     }
   });

@@ -53,7 +53,7 @@
                   for($j = 1; $j <= ($daysInMonth+$offset); $j++) :
                     $dayNumber = ($j <= $offset) ? '' : $j-$offset;
                     // print the cells
-                    $dayCurrent = ($j == $day && $i == $month) ? 'calendar__day__item--current' : 'calendar__day__item';
+                    $dayCurrent = ($j == $day + $offset && $i == $month) ? 'calendar__day__item--current' : 'calendar__day__item';
                     echo '<calendar-day class="'. $dayCurrent .'" day="'. $dayNumber .'" month="'. $i .'">'. $dayNumber .'</calendar-day>';
                   endfor;
                 ?>

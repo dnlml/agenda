@@ -13546,10 +13546,10 @@ App.prototype.init = function () {
   window.Event = new Vue();
 
   Vue.component('modal', {
-    template: '\n      <div class="modal" v-show="isVisible">\n        Event name: <br> <input type="text" name="title" v-model="eventName"> <br>\n        Event Description: <br><textarea name="description" id="" cols="30" rows="10" v-model="eventDescription"></textarea>\n        <div>\n          <button @click="cancel">Cancel</button>\n          <button @click="saveEvent"> Add </button>\n        </div>\n      </div>\n    ',
+    template: '\n      <div :class="className">\n        Event name: <br> <input type="text" name="title" v-model="eventName"> <br>\n        Event Description: <br><textarea name="description" id="" cols="30" rows="10" v-model="eventDescription"></textarea>\n        <div>\n          <button @click="cancel">Cancel</button>\n          <button @click="saveEvent"> Add </button>\n        </div>\n      </div>\n    ',
     data: function data() {
       return {
-        isVisible: false,
+        className: 'modal',
         eventName: 'New event',
         eventDescription: 'New event description'
       };
@@ -13560,7 +13560,7 @@ App.prototype.init = function () {
 
     methods: {
       toggleVisibility: function toggleVisibility(hour, day, month) {
-        this.isVisible = true;
+        this.className = 'modal anim';
         this.day = day;
         this.month = month;
         this.time = hour;
@@ -13576,12 +13576,14 @@ App.prototype.init = function () {
           id: this.progressiveId
         });
 
-        this.isVisible = false;
+        this.className = 'modal';
         this.eventName = 'New event';
         this.eventDescription = 'New event description';
+        window.Event.$emit('openDayOther');
       },
       cancel: function cancel() {
-        this.isVisible = false;
+        this.className = 'modal';
+        window.Event.$emit('openDayOther');
       }
     }
   });
@@ -13593,7 +13595,12 @@ App.prototype.init = function () {
 
   Vue.component('hour', {
     props: ['hour', 'events', 'day', 'month'],
-    template: '<li class="day__hour__item-wrapper">\n      <div class="day__hour__item" :data-event-hour="hour" :data-event-day="day" :data-event-month="month" :events="events">\n        <span>{{hour}}h</span>\n        <event v-for="event in events" v-if="event.time == hour && event.day == day && event.month == month" :title="event.title" :event-id="event.id"></event>\n      </div></li>\n    '
+    template: '<li class="day__hour__item-wrapper" @click="onClick">\n      <div class="day__hour__item" :data-event-hour="hour" :data-event-day="day" :data-event-month="month" :events="events">\n        <span>{{hour}}h</span>\n        <event v-for="event in events" v-if="event.time == hour && event.day == day && event.month == month" :title="event.title" :event-id="event.id"></event>\n      </div></li>\n    ',
+    methods: {
+      onClick: function onClick() {
+        window.Event.$emit('openModal');
+      }
+    }
   });
 
   Vue.component('day', {
@@ -13609,7 +13616,9 @@ App.prototype.init = function () {
       };
     },
     created: function created() {
-      window.Event.$on('openDay', this.showDay);
+      window.Event.$on('openDay', this.prepareDay);
+      window.Event.$on('openDayOther', this.showDay);
+      window.Event.$on('openModal', this.hideDayOther);
     },
 
     methods: {
@@ -13631,14 +13640,21 @@ App.prototype.init = function () {
       addEvent: function addEvent(eventHour, eventDay, eventMonth) {
         window.Event.$emit('openPop', eventHour, eventDay, eventMonth);
       },
-      showDay: function showDay(d, m) {
+      prepareDay: function prepareDay(d, m) {
         this.d = d;
         this.mNumber = m;
         this.mName = this.months[m - 1];
+        this.showDay();
+      },
+      showDay: function showDay() {
         this.className = 'day anim';
       },
       hideDay: function hideDay() {
         this.className = 'day';
+        window.Event.$emit('closeDay', this.showDay);
+      },
+      hideDayOther: function hideDayOther() {
+        this.className = 'day back';
       }
     }
   });
@@ -13653,6 +13669,7 @@ App.prototype.init = function () {
     },
     created: function created() {
       window.Event.$on('openDay', this.hideCalendar);
+      window.Event.$on('closeDay', this.showCalendar);
     },
 
     methods: {
@@ -13671,8 +13688,11 @@ App.prototype.init = function () {
         return tmpClass;
       },
       hideCalendar: function hideCalendar() {
-        var cal = document.querySelector('[data-calendar]');
-        cal.classList.add('anim');
+        this.cal = document.querySelector('[data-calendar]');
+        this.cal.classList.add('anim');
+      },
+      showCalendar: function showCalendar() {
+        this.cal.classList.remove('anim');
       }
     }
   });

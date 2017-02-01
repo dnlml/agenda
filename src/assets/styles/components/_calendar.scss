@@ -41,6 +41,8 @@
   font-family: 'subtitle';
   text-transform: uppercase;
   text-align: center;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid $gray--light;
   > * {
     flex-basis: calc(100% / 7);
   }
@@ -63,7 +65,7 @@
   padding-top: 3rem;
   cursor: pointer;
   text-align: center;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid $gray--light;
 
   &:after {
     content: '';
