@@ -7,6 +7,7 @@
   <link rel="stylesheet" media="screen" href="assets/styles/main.css">
   <title>Agenda</title>
   <script>
+    <?php // Check if js is active ?>
     document.documentElement.classList.remove("no-js");
     document.documentElement.classList.add("js");
   </script>
@@ -41,6 +42,7 @@
           <li>Fri</li>
           <li>Sat</li>
         </ul>
+        <?php // Print out the months and create de structure ?>
         <?php
           $day = (int)date("d");
           $month = (int)date("m");
@@ -73,6 +75,7 @@
       </div>
     </div>
 
+    <?php // Vue.js components ?>
     <day></day>
     <modal></modal>
 

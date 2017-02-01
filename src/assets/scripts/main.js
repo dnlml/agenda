@@ -14,6 +14,8 @@ Agenda.prototype.init = function () {
 }
 
 document.addEventListener('DOMContentLoaded', function () {
+
+  // Webfont loading to avoid FOUT
   WebFont.load({
     custom: {
       families: ['title', 'subtitle']

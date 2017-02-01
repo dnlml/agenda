@@ -10,8 +10,10 @@ class App {
 };
 
 App.prototype.init = function () {
+  // General event manager to share props and events between the components
   window.Event = new Vue();
 
+  // Modal windows to add the event
   Vue.component('modal', {
     template: `
       <div :class="className">
@@ -64,6 +66,7 @@ App.prototype.init = function () {
     }
   });
 
+  // Single event component
   Vue.component('event', {
     props: ['title','description','event-id'],
     template: `
@@ -84,6 +87,7 @@ App.prototype.init = function () {
     }
   });
 
+  // Hour component, part of the parent Day.
   Vue.component('hour', {
     props: ['hour', 'events', 'day', 'month'],
     template: `<li class="day__hour__item-wrapper">
@@ -94,6 +98,7 @@ App.prototype.init = function () {
     `
   });
 
+  // Day component, is the view of the single day.
   Vue.component('day', {
     template: `
       <div :class="className">
@@ -181,6 +186,7 @@ App.prototype.init = function () {
     }
   });
 
+  // Calendar component
   Vue.component('calendar-day', {
     props: ['day', 'month'],
     template: `
@@ -224,6 +230,7 @@ App.prototype.init = function () {
     }
   });
 
+  // Main Vue instance, it contains the data and the events.
   new Vue({
     el: '#root',
     data: {
@@ -234,36 +241,36 @@ App.prototype.init = function () {
       newEventTime: '',
       newEventTitle: '',
       newEventDescription: '',
-      events: [ //here I should call the API entrypoint of the backend to persist the object
+      events: [ // Here I should call the API entrypoint of the backend to persist the object
         {
-          day: 10,
+          day: 3,
           month: 2,
-          time: 3,
-          title: 'Event Title 1',
-          description: 'This is a short description',
+          time: 9,
+          title: 'Dan calendar deadline',
+          description: '',
           id: 1
         },
         {
-          day: 13,
+          day: 3,
           month: 2,
-          time: 5,
-          title: 'Event Title 2',
-          description: 'This is another short description',
+          time: 10,
+          title: 'Send proposal contract',
+          description: '',
           id: 2
         },
         {
-          day: 22,
+          day: 6,
           month: 2,
-          time: 3,
-          title: 'Event Title 3',
-          description: 'This is a short description',
+          time: 9,
+          title: 'Dan signature',
+          description: 'It is a great day',
           id: 3
         },
         {
-          day: 29,
-          month: 1,
-          time: 4,
-          title: 'Event Title 4',
+          day: 7,
+          month: 2,
+          time: 9,
+          title: 'Dan comes to Barcelona',
           description: 'This is a short description',
           id: 4
         }
