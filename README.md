@@ -2,6 +2,9 @@
 
 _A monthly event manager_
 
+Check out the [DEMO](http://danielemeli.com/agenda)
+
+
 ## Setup
 The project is already compiled in the /dist folder. By the way, it you want to compile it by yourself, here is the 3 steps.
 
