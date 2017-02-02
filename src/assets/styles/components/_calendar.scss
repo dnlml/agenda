@@ -1,5 +1,6 @@
 .calendar {
-  @include absolute($top: 0, $left: calc(50% - 29rem), $right: auto, $bottom: auto, $width: 58rem, $height: auto);
+  max-width: 100%;
+  @include absolute($top: 0, $left: 0, $right: auto, $bottom: auto, $width: 58rem, $height: auto);
   box-sizing: border-box;
   padding: 0 3rem 3rem 3rem;
   background: white;
@@ -12,6 +13,10 @@
     opacity: .4;
     transform: scale(0.8);
     z-index: 10;
+  }
+
+  @include mq('small') {
+    left: calc(50% - 29rem);
   }
 }
 
@@ -44,6 +49,11 @@
   text-align: center;
   padding-bottom: 2rem;
   border-bottom: 1px solid $gray--light;
+  font-size: 1.4rem;
+
+  @include mq('small') {
+    font-size: 1.6rem;
+  }
 
   > * {
     flex-basis: calc(100% / 7);
@@ -64,7 +74,8 @@
   box-sizing: border-box;
   font-family: 'subtitle';
   font-weight: 700;
-  padding-top: 3rem;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
   cursor: pointer;
   text-align: center;
   border-bottom: 1px solid $gray--light;
@@ -72,6 +83,10 @@
   background-color: transparent;
   transition: box-shadow .33s, background-color .33s;
 
+  @include mq('small') {
+    padding-top: 3rem;
+    padding-bottom: 0;
+  }
   &:after {
     content: '';
     display: block;
@@ -80,9 +95,11 @@
     height: 0;
   }
 
-  &:hover {
-    background-color: rgba($cyan, .4);
-    box-shadow: inset 0px 0px 30px -10px rgba(0,0,0,.5);
+  @include mq('medium') {
+    &:hover {
+      background-color: rgba($cyan, .4);
+      box-shadow: inset 0px 0px 30px -10px rgba(0,0,0,.5);
+    }
   }
 }
 

@@ -10,7 +10,7 @@
 
 /*
 
-  small: 640px;
+  small: 580px;
   medium: 768px;
   large: 1024px;
   xlarge: 1280px;
@@ -22,7 +22,7 @@
 
 @mixin mq($size) {
   @if $size == small {
-    @media (min-width: 640px) { @content; }
+    @media (min-width: 580px) { @content; }
   }
   @else if $size == medium {
     @media (min-width: 768px) { @content; }
