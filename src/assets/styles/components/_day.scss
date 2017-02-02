@@ -4,7 +4,7 @@
   z-index: 20;
   background-color: white;
   font-family: 'subtitle';
-  box-shadow: 0 40px 120px -40px rgba(0,0,0,.75);
+  box-shadow: 0 4rem 12rem -4rem rgba(0, 0, 0, .75);
   overflow: hidden;
   transform: scale(.8);
   transition: opacity .55s, transform .55s;
@@ -33,7 +33,7 @@
   padding: 2rem 3rem;
   text-transform: uppercase;
   letter-spacing: .1em;
-  box-shadow: 0 0 30px -10px rgba(0,0,0,.75)
+  box-shadow: 0 0 3rem -1rem rgba(0, 0, 0, .75)
 }
 
 .day__header__close {

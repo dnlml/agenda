@@ -242,7 +242,7 @@ http://flickity.metafizzy.co
   box-sizing: border-box;
   padding: 0 3rem 3rem 3rem;
   background: white;
-  box-shadow: 0px 40px 120px -40px rgba(0, 0, 0, 0.75);
+  box-shadow: 0 4rem 12rem -4rem rgba(0, 0, 0, 0.75);
   opacity: 1;
   transition: transform .33s, opacity .33s;
   z-index: 30; }
@@ -278,7 +278,7 @@ http://flickity.metafizzy.co
   text-transform: uppercase;
   text-align: center;
   padding-bottom: 2rem;
-  border-bottom: 1px solid #EEEEEE;
+  border-bottom: 0.1rem solid #EEEEEE;
   font-size: 1.4rem; }
   @media (min-width: 580px) {
     .calendar__week {
@@ -302,8 +302,8 @@ http://flickity.metafizzy.co
   padding-bottom: 2rem;
   cursor: pointer;
   text-align: center;
-  border-bottom: 1px solid #EEEEEE;
-  box-shadow: inset 0px 0px 0px 0px rgba(0, 0, 0, 0.75);
+  border-bottom: 0.1rem solid #EEEEEE;
+  box-shadow: inset 0 0 0 0 rgba(0, 0, 0, 0.75);
   background-color: transparent;
   transition: box-shadow .33s, background-color .33s; }
   @media (min-width: 580px) {
@@ -322,11 +322,11 @@ http://flickity.metafizzy.co
     [class^="calendar__day__item--"]:hover,
     .calendar__day__item:hover {
       background-color: rgba(90, 217, 206, 0.4);
-      box-shadow: inset 0px 0px 30px -10px rgba(0, 0, 0, 0.5); } }
+      box-shadow: inset 0 0 3rem -1rem rgba(0, 0, 0, 0.5); } }
 
 .calendar__day__item--current {
   background-color: #5AD9CE;
-  box-shadow: inset 0px 0px 30px -10px rgba(0, 0, 0, 0.75);
+  box-shadow: inset 0 0 3rem -1rem rgba(0, 0, 0, 0.75);
   color: white; }
 
 .calendar__day__item--event:before {
@@ -357,7 +357,7 @@ http://flickity.metafizzy.co
   z-index: 20;
   background-color: white;
   font-family: 'subtitle';
-  box-shadow: 0 40px 120px -40px rgba(0, 0, 0, 0.75);
+  box-shadow: 0 4rem 12rem -4rem rgba(0, 0, 0, 0.75);
   overflow: hidden;
   transform: scale(0.8);
   transition: opacity .55s, transform .55s;
@@ -381,7 +381,7 @@ http://flickity.metafizzy.co
   padding: 2rem 3rem;
   text-transform: uppercase;
   letter-spacing: .1em;
-  box-shadow: 0 0 30px -10px rgba(0, 0, 0, 0.75); }
+  box-shadow: 0 0 3rem -1rem rgba(0, 0, 0, 0.75); }
 
 .day__header__close {
   position: absolute;
@@ -474,7 +474,7 @@ http://flickity.metafizzy.co
   transition: opacity .55s, transform .55s;
   padding: 3rem;
   box-sizing: border-box;
-  box-shadow: 0px 40px 120px -40px rgba(0, 0, 0, 0.75);
+  box-shadow: 0 4rem 12rem -4rem rgba(0, 0, 0, 0.75);
   max-width: 100%; }
   @media (min-width: 580px) {
     .modal {
@@ -526,9 +526,10 @@ http://flickity.metafizzy.co
   box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.75);
   transform: translate3d(0, 0, 0);
   transition: box-shadow .33s, transform .33s; }
-  [class^="modal__footer__"]:hover {
-    box-shadow: 0 10px 20px -15px rgba(0, 0, 0, 0.75);
-    transform: translate3d(0, -0.5rem, 0); }
+  @media (min-width: 768px) {
+    [class^="modal__footer__"]:hover {
+      box-shadow: 0 1rem 2rem -1.5rem rgba(0, 0, 0, 0.75);
+      transform: translate3d(0, -0.5rem, 0); } }
 
 .modal__footer__cancel {
   background: red;
